@@ -118,6 +118,129 @@ def get_spatial_fragments(
     # target_video = target_video.reshape((-1, dur_t,) + size) ## Splicing Fragments
     return target_video
 
+
+
+class AVA_dataloader_pair(Dataset):
+    def __init__(self, data_dir, csv_path, transform, database, seed):
+        self.database = database
+
+
+        tmp_df = pd.read_csv(csv_path)
+        image_name = tmp_df['image_num'].to_list()
+        image_score = np.zeros([len(image_name)])
+        for i_vote in range(1,11):
+            image_score += i_vote * tmp_df['vote_'+str(i_vote)].to_numpy()
+
+        n_images = len(image_name)
+        random.seed(seed)
+        np.random.seed(seed)
+        index_rd = np.random.permutation(n_images)
+
+        if 'train' in database:
+            index_subset = index_rd[ : int(n_images * 0.8)]
+            self.X_train = [str(image_name[i])+'.jpg' for i in index_subset]
+            self.Y_train = [image_score[i] for i in index_subset]
+        elif 'test' in database:
+            index_subset = index_rd[int(n_images * 0.8) : ]
+            self.X_train = [str(image_name[i])+'.jpg' for i in index_subset]
+            self.Y_train = [image_score[i] for i in index_subset]
+        else:
+            raise ValueError(f"Unsupported subset database name: {database}")
+        print(self.X_train)
+
+
+
+        self.data_dir = data_dir
+        self.transform = transform
+        self.length = len(self.X_train)
+
+    def __getitem__(self, index):
+
+        index_second = random.randint(0, self.length - 1)
+        if index == index_second:
+            index_second = (index_second + 1) % self.length
+        while self.Y_train[index] == self.Y_train[index_second]:
+            index_second = random.randint(0, self.length - 1)
+            if index == index_second:
+                index_second = (index_second + 1) % self.length
+
+        path = os.path.join(self.data_dir,self.X_train[index])
+        path_second = os.path.join(self.data_dir,self.X_train[index_second])
+
+        img = Image.open(path)
+        img = img.convert('RGB')
+
+
+        img_second = Image.open(path_second)
+        img_second = img_second.convert('RGB')
+
+        img_overall = self.transform(img)
+        img_second_overall = self.transform(img_second)
+
+        y_mos = self.Y_train[index]
+        y_label = torch.FloatTensor(np.array(float(y_mos)))
+
+
+        y_mos_second = self.Y_train[index_second]
+        y_label_second = torch.FloatTensor(np.array(float(y_mos_second)))
+
+        return img_overall, y_label, img_second_overall, y_label_second
+
+
+
+
+class AVA_dataloader(Dataset):
+    def __init__(self, data_dir, csv_path, transform, database, seed):
+        self.database = database
+
+
+        tmp_df = pd.read_csv(csv_path)
+        image_name = tmp_df['image_num'].to_list()
+        image_score = np.zeros([len(image_name)])
+        for i_vote in range(1,11):
+            image_score += i_vote * tmp_df['vote_'+str(i_vote)].to_numpy()
+
+        n_images = len(image_name)
+        random.seed(seed)
+        np.random.seed(seed)
+        index_rd = np.random.permutation(n_images)
+
+        if 'train' in database:
+            index_subset = index_rd[ : int(n_images * 0.8)]
+            self.X_train = [str(image_name[i])+'.jpg' for i in index_subset]
+            self.Y_train = [image_score[i] for i in index_subset]
+        elif 'test' in database:
+            index_subset = index_rd[int(n_images * 0.8) : ]
+            self.X_train = [str(image_name[i])+'.jpg' for i in index_subset]
+            self.Y_train = [image_score[i] for i in index_subset]
+        else:
+            raise ValueError(f"Unsupported subset database name: {database}")
+        print(self.X_train)
+
+
+
+        self.data_dir = data_dir
+        self.transform = transform
+        self.length = len(self.X_train)
+
+    def __getitem__(self, index):
+
+        path = os.path.join(self.data_dir,self.X_train[index])
+
+        img = Image.open(path)
+        img = img.convert('RGB')
+
+        img_overall = self.transform(img)
+
+        y_mos = self.Y_train[index]
+        y_label = torch.FloatTensor(np.array(float(y_mos)))
+
+        return img_overall, y_label
+
+
+    def __len__(self):
+        return self.length
+
 class UIQA_dataloader_pair(Dataset):
     def __init__(self, data_dir, csv_path, transform, database, n_fragment=12, salient_patch_dimension=448, seed=0):
         self.database = database
@@ -163,7 +286,7 @@ class UIQA_dataloader_pair(Dataset):
         self.transform_distortion = transforms.Compose([transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])])
         self.transform_distortion_preprocessing = transforms.Compose([transforms.ToTensor()])
         self.transform_saliency = transforms.Compose([
-            transforms.CenterCrop(self.map_dimension_input),
+            transforms.CenterCrop(self.salient_patch_dimension),
             transforms.ToTensor(),
             transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
         ])
@@ -345,4 +468,3 @@ class UIQA_dataloader(Dataset):
 
     def __len__(self):
         return self.length
-
