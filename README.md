@@ -7,15 +7,12 @@
 
 Official Code for **[Assessing UHD Image Quality from Aesthetics, Distortions, and Saliency](https://arxiv.org/abs/2409.00749)**
 
-
-
 ### TODO 
 - [ ] release the model weights trained on the UHD-IQA dataset
 - [ ] release the inference code
 
 ## Introduction
 > **UHD images**, typically with resolutions equal to or higher than 4K, pose a significant challenge for efficient image quality assessment (IQA) algorithms, as adopting full-resolution images as inputs leads to overwhelming computational complexity and commonly used pre-processing methods like resizing or cropping may cause substantial loss of detail. To address this problem, we design a multi-branch deep neural network (DNN) to assess the quality of UHD images from three perspectives: **global aesthetic characteristics, local technical distortions, and salient content perception**. Specifically, *aesthetic features are extracted from low-resolution images downsampled from the UHD ones*, which lose high-frequency texture information but still preserve the global aesthetics characteristics. *Technical distortions are measured using a fragment image composed of mini-patches cropped from UHD images based on the grid mini-patch sampling strategy*. *The salient content of UHD images is detected and cropped to extract quality-aware features from the salient regions*. We adopt the Swin Transformer Tiny as the backbone networks to extract features from these three perspectives. The extracted features are concatenated and regressed into quality scores by a two-layer multi-layer perceptron (MLP) network. We employ the mean square error (MSE) loss to optimize prediction accuracy and the fidelity loss to optimize prediction monotonicity. Experimental results show that the proposed model achieves the best performance on the UHD-IQA dataset while maintaining the lowest computational complexity, demonstrating its effectiveness and efficiency. Moreover, the proposed model won **first prize in ECCV AIM 2024 UHD-IQA Challenge**.
-
 
 ## Image Pre-processing
 ![Image Pre-processing Figure](./figures/UHD_Image_Preprecessing.PNG)
@@ -30,6 +27,52 @@ Official Code for **[Assessing UHD Image Quality from Aesthetics, Distortions, a
 <!-- ## Computationl Complexity
 ![Computationl Complexity](./figures/macs.PNG) -->
 
+## Performance
+#### Compared with state-of-the-art IQA methods
+- Performance on the validation set of the UHD-IQA dataset
+
+| Methods | SRCC | PLCC | KRCC | RMSE | MAE |
+| :---: | :---:| :---:|:---: |:---: |:---: |
+|HyperIQA|0.524|0.182| 0.359|0.087| 0.055|
+|Effnet-2C-MLSP|0.615| 0.627|0.445|0.060|0.050|
+|CONTRIQUE|0.716| 0.712|0.521|0.049|0.038|
+|ARNIQA|0.718|0.717|0.523| 0.050|0.039|
+|CLIP-IQA+|0.743|0.732| 0.546| 0.108|0.087|
+|QualiCLIP|0.757|0.752|0.557|0.079|0.064|
+|**UIQA**|**0.817**| **0.823**| **0.625**|**0.040**| **0.032**|
+
+- Performance on the test set of the UHD-IQA dataset
+
+| Methods | SRCC | PLCC | KRCC | RMSE | MAE |
+| :---: | :---:| :---:|:---: |:---: |:---: |
+|HyperIQA|0.553| 0.103| 0.389|0.118|0.070 |
+|Effnet-2C-MLSP|0.675|0.641 | 0.491|0.074|0.059|
+|CONTRIQUE|0.732| 0.678|0.532| 0.073|0.052|
+|ARNIQA|0.739|0.694|0.544|  0.052|0.739|
+|CLIP-IQA+|0.747| 0.709| 0.551| 0.111| 0.089|
+|QualiCLIP|0.770|0.725|0.570|0.083|0.066|
+|**UIQA**|**0.846**|  **0.798**|**0.657**|**0.061**| **0.042**|
+
+
+
+
+
+
+
+
+
+
+
+
+#### Performance on ECCV AIM 2024 UHD-IQA Challenge
+| Team | SRCC | PLCC | KRCC | RMSE | MAE |
+| :---: | :---:| :---:|:---: |:---: |:---: |
+| **SJTU MMLab (ours)** | **0.846** | 0.798 | **0.657** |  **0.061** | **0.042** |
+| CIPLAB | 0.835 | **0.800** |  0.642 |   0.064 | 0.044 |
+| ZX AIE Vector | 0.795 | 0.768 | 0.605  | 0.062 | 0.044 |
+| I2Group | 0.788 | 0.756 | 0.598  | 0.066 | 0.046 |
+| Dominator | 0.731 | 0.712 | 0.539  | 0.072 |  0.052 |
+|ICL|0.517| 0.521|0.361| 0.136| 0.115|
 
 ## Usage
 ### Environments
