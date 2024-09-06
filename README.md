@@ -130,3 +130,9 @@ CUDA_VISIBLE_DEVICES=0 python -u test_single_image.py \
 --salient_patch_dimension 480 \
 --model UIQA
 ```
+
+### Acknowledgement
+
+1. <https://github.com/zwx8981/LIQE>
+2. <https://github.com/VQAssessment/FAST-VQA-and-FasterVQA>
+3. <https://github.com/imfing/ava_downloader>
