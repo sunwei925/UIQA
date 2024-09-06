@@ -7,10 +7,6 @@
 
 Official Code for **[Assessing UHD Image Quality from Aesthetics, Distortions, and Saliency](https://arxiv.org/abs/2409.00749)**
 
-### TODO 
-- [ ] release the model weights trained on the UHD-IQA dataset
-- [ ] release the inference code
-
 ## Introduction
 > **UHD images**, typically with resolutions equal to or higher than 4K, pose a significant challenge for efficient image quality assessment (IQA) algorithms, as adopting full-resolution images as inputs leads to overwhelming computational complexity and commonly used pre-processing methods like resizing or cropping may cause substantial loss of detail. To address this problem, we design a multi-branch deep neural network (DNN) to assess the quality of UHD images from three perspectives: **global aesthetic characteristics, local technical distortions, and salient content perception**. Specifically, *aesthetic features are extracted from low-resolution images downsampled from the UHD ones*, which lose high-frequency texture information but still preserve the global aesthetics characteristics. *Technical distortions are measured using a fragment image composed of mini-patches cropped from UHD images based on the grid mini-patch sampling strategy*. *The salient content of UHD images is detected and cropped to extract quality-aware features from the salient regions*. We adopt the Swin Transformer Tiny as the backbone networks to extract features from these three perspectives. The extracted features are concatenated and regressed into quality scores by a two-layer multi-layer perceptron (MLP) network. We employ the mean square error (MSE) loss to optimize prediction accuracy and the fidelity loss to optimize prediction monotonicity. Experimental results show that the proposed model achieves the best performance on the UHD-IQA dataset while maintaining the lowest computational complexity, demonstrating its effectiveness and efficiency. Moreover, the proposed model won **first prize in ECCV AIM 2024 UHD-IQA Challenge**.
 
@@ -119,4 +115,18 @@ CUDA_VISIBLE_DEVICES=0,1 python -u train.py \
 >> logfiles/train_UIQA.log
 ```
 
+### Test UIQA
+Put your trained model in the ckpts folder, or download the provided trained model ([model weights](https://www.dropbox.com/scl/fi/joquyw10c72hvi4xlmb3i/UIQA.pth?rlkey=xb38p29n00883exs1iuoe9u0m&st=tiaftrrn&dl=0), [quality alignment profile file](https://www.dropbox.com/scl/fi/mdr36w5lvewte6ocjol3w/UIQA.npy?rlkey=vb7skiqip1j0tyejkf5cdrrxs&st=x6lfs5is&dl=0)) on the UHD-IQA dataset into the ckpts folder.
 
+```
+CUDA_VISIBLE_DEVICES=0 python -u test_single_image.py \
+--model_path ckpts/ \
+--trained_model_file UIQA.pth \
+--popt_file UIQA.npy \
+--image_path /data/sunwei_data/UHDIQA/challenge/validation/8.jpg \
+--resize 512 \
+--crop_size 480 \
+--n_fragment 15 \
+--salient_patch_dimension 480 \
+--model UIQA
+```
