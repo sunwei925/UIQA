@@ -129,7 +129,7 @@ CUDA_VISIBLE_DEVICES=0 python -u test_single_image.py \
 --model UIQA
 ```
 
-### Citation
+## Citation
 **If you find this code is useful for  your research, please cite**:
 
 ```latex
@@ -141,7 +141,7 @@ CUDA_VISIBLE_DEVICES=0 python -u test_single_image.py \
 }
 ```
 
-### Acknowledgement
+## Acknowledgement
 
 1. <https://github.com/zwx8981/LIQE>
 2. <https://github.com/VQAssessment/FAST-VQA-and-FasterVQA>
