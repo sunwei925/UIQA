@@ -58,8 +58,6 @@ Official Code for **[Assessing UHD Image Quality from Aesthetics, Distortions, a
 
 
 
-
-
 #### Performance on ECCV AIM 2024 UHD-IQA Challenge
 | Team | SRCC | PLCC | KRCC | RMSE | MAE |
 | :---: | :---:| :---:|:---: |:---: |:---: |
@@ -116,19 +114,31 @@ CUDA_VISIBLE_DEVICES=0,1 python -u train.py \
 ```
 
 ### Test UIQA
-Put your trained model in the ckpts folder, or download the provided trained model ([model weights](https://www.dropbox.com/scl/fi/joquyw10c72hvi4xlmb3i/UIQA.pth?rlkey=xb38p29n00883exs1iuoe9u0m&st=tiaftrrn&dl=0), [quality alignment profile file](https://www.dropbox.com/scl/fi/mdr36w5lvewte6ocjol3w/UIQA.npy?rlkey=vb7skiqip1j0tyejkf5cdrrxs&st=x6lfs5is&dl=0)) on the UHD-IQA dataset into the ckpts folder.
+Put your trained model in the ckpts folder, or download the provided trained model ([model weights](https://www.dropbox.com/scl/fi/mgvvt902zehhmo6drnxve/UIQA.pth?rlkey=413edq08c8qnxbrlgclnq0va6&st=yzcskkus&dl=0), [quality alignment profile file](https://www.dropbox.com/scl/fi/1st2jjga6ssirvsex5oo6/UIQA.npy?rlkey=6mbf2utiz1t3dlm5nl635cvmz&st=n0tvbqv9&dl=0)) on the UHD-IQA dataset into the ckpts folder.
 
 ```
 CUDA_VISIBLE_DEVICES=0 python -u test_single_image.py \
 --model_path ckpts/ \
 --trained_model_file UIQA.pth \
 --popt_file UIQA.npy \
---image_path /data/sunwei_data/UHDIQA/challenge/validation/8.jpg \
+--image_path demo/8.jpg \
 --resize 512 \
 --crop_size 480 \
 --n_fragment 15 \
 --salient_patch_dimension 480 \
 --model UIQA
+```
+
+### Citation
+**If you find this code is useful for  your research, please cite**:
+
+```latex
+@article{sun2024assessing,
+  title={Assessing UHD Image Quality from Aesthetics, Distortions, and Saliency},
+  author={Sun, Wei and Zhang, Weixia and Cao, Yuqin and Cao, Linhan and Jia, Jun and Chen, Zijian and Zhang, Zicheng and Min, Xiongkuo and Zhai, Guangtao},
+  journal={arXiv preprint arXiv:2409.00749},
+  year={2024}
+}
 ```
 
 ### Acknowledgement
