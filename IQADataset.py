@@ -247,7 +247,6 @@ class UIQA_dataloader_pair(Dataset):
         self.salient_patch_dimension = salient_patch_dimension
         self.n_fragment = n_fragment
 
-
         tmp_df = pd.read_csv(csv_path)
         image_name = tmp_df['image_name'].to_list()
         mos = tmp_df['quality_mos'].to_list()
