@@ -59,11 +59,11 @@ if __name__ == '__main__':
 
 
 
-    # torch.manual_seed(args.random_seed)  #
-    # torch.backends.cudnn.deterministic = True
-    # torch.backends.cudnn.benchmark = False
-    # np.random.seed(args.random_seed)
-    # random.seed(args.random_seed)
+    torch.manual_seed(args.random_seed)  #
+    torch.backends.cudnn.deterministic = True
+    torch.backends.cudnn.benchmark = False
+    np.random.seed(args.random_seed)
+    random.seed(args.random_seed)
 
     gpu = args.gpu
     cudnn.enabled = True

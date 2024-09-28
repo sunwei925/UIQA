@@ -5,6 +5,8 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/sunwei925/UIQA)
 [![arXiv](https://img.shields.io/badge/build-paper-red?logo=arXiv&label=arXiv)](https://arxiv.org/abs/2409.00749)
 
+🏆 🥇 **Winner solution for [ECCV AIM 2024 UHD-IQA Challenge: Pushing the Boundaries of Blind Photo Quality Assessment](https://codalab.lisn.upsaclay.fr/competitions/19335) at the [AIM 2024](https://cvlai.net/aim/2024/) workshop @ ECCV 2024** 
+
 Official Code for **[Assessing UHD Image Quality from Aesthetics, Distortions, and Saliency](https://arxiv.org/abs/2409.00749)**
 
 ## Introduction
@@ -67,6 +69,8 @@ Official Code for **[Assessing UHD Image Quality from Aesthetics, Distortions, a
 | I2Group | 0.788 | 0.756 | 0.598  | 0.066 | 0.046 |
 | Dominator | 0.731 | 0.712 | 0.539  | 0.072 |  0.052 |
 |ICL|0.517| 0.521|0.361| 0.136| 0.115|
+
+- for more results on the ECCV AIM UHD IQA challenge, please refer to the [challenge report](https://arxiv.org/abs/2409.16271).
 
 ## Usage
 ### Environments
