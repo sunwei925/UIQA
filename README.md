@@ -137,11 +137,12 @@ CUDA_VISIBLE_DEVICES=0 python -u test_single_image.py \
 **If you find this code is useful for  your research, please cite**:
 
 ```latex
-@article{sun2024assessing,
-  title={Assessing UHD Image Quality from Aesthetics, Distortions, and Saliency},
+@inproceedings{sun2025assessing,
+  title={Assessing uhd image quality from aesthetics, distortions, and saliency},
   author={Sun, Wei and Zhang, Weixia and Cao, Yuqin and Cao, Linhan and Jia, Jun and Chen, Zijian and Zhang, Zicheng and Min, Xiongkuo and Zhai, Guangtao},
-  journal={arXiv preprint arXiv:2409.00749},
-  year={2024}
+  booktitle={European Conference on Computer Vision},
+  pages={109--126},
+  year={2025}
 }
 ```
 
